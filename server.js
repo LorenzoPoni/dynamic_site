@@ -17,7 +17,7 @@ pool.query(`
 `).then(() => {
   pool.query('SELECT count FROM vendite WHERE id = 1').then(result => {
     if (result.rows.length === 0) {
-      pool.query('INSERT INTO vendite (id, count) VALUES (1, 1523)');
+      pool.query('INSERT INTO vendite (id, count) VALUES (1, 0)');
     }
   });
 }).catch(err => console.error('Errore creazione tabella:', err));
