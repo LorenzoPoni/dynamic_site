@@ -1,0 +1,12 @@
+{
+  "name": "dynamic_site",
+  "version": "1.0.0",
+  "description": "Sito dinamico base con Node.js",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
