@@ -22,12 +22,51 @@ header {
     z-index: 100;
 }
 
+.header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.status-bar {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.status-item {
+    background: rgba(255,255,255,0.2);
+    padding: 0.5rem 1rem;
+    border-radius: 25px;
+    font-size: 0.9rem;
+}
+
+.status-label {
+    font-weight: 600;
+}
+
+.status-value {
+    margin-left: 0.5rem;
+}
+
+.status-value.aperto {
+    color: #27ae60;
+    font-weight: bold;
+}
+
+.status-value.chiuso {
+    color: #e74c3c;
+    font-weight: bold;
+}
+
 .logo {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 1rem;
-    margin-bottom: 1rem;
 }
 
 .logo-img {
@@ -252,4 +291,152 @@ footer p {
     .hero-img {
         max-width: 100%;
     }
+    
+    .header-top {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .status-bar {
+        justify-content: center;
+    }
+}
+
+.btn-aggiungi {
+    display: block;
+    width: 100%;
+    margin-top: 1rem;
+    padding: 0.8rem 1rem;
+    background: linear-gradient(135deg, #27ae60, #2ecc71);
+    color: white;
+    border: none;
+    border-radius: 25px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-aggiungi:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(39, 174, 96, 0.4);
+}
+
+.carrello-section {
+    background: white;
+    padding: 2rem;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+    margin-top: 3rem;
+}
+
+.carrello-section h2 {
+    text-align: center;
+    color: #c9a227;
+    margin-bottom: 1.5rem;
+}
+
+.carrello-container {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.carrello-items {
+    min-height: 100px;
+}
+
+.carrello-vuoto {
+    text-align: center;
+    color: #999;
+    font-style: italic;
+    padding: 2rem;
+}
+
+.carrello-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background: #fff9e6;
+    border-radius: 10px;
+    margin-bottom: 0.5rem;
+}
+
+.item-nome {
+    flex: 1;
+    font-weight: 600;
+}
+
+.item-controlli {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0 1rem;
+}
+
+.item-controlli button {
+    width: 30px;
+    height: 30px;
+    border: none;
+    border-radius: 50%;
+    background: #c9a227;
+    color: white;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.item-controlli button:hover {
+    background: #e6b800;
+}
+
+.item-quantita {
+    font-weight: bold;
+    min-width: 30px;
+    text-align: center;
+}
+
+.item-prezzo {
+    font-weight: bold;
+    color: #27ae60;
+}
+
+.carrello-totale {
+    display: flex;
+    justify-content: space-between;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, #35424a, #2c3e50);
+    color: white;
+    border-radius: 10px;
+    font-size: 1.3rem;
+    font-weight: bold;
+    margin-top: 1rem;
+}
+
+.totale-importo {
+    color: #f4d03f;
+}
+
+.btn-ordina {
+    width: 100%;
+    margin-top: 1rem;
+    padding: 1rem;
+    background: linear-gradient(135deg, #27ae60, #2ecc71);
+    color: white;
+    border: none;
+    border-radius: 25px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-ordina:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(39, 174, 96, 0.4);
+}
+
+.btn-ordina:disabled {
+    background: #ccc;
+    cursor: not-allowed;
 }

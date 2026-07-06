@@ -8,8 +8,20 @@
 </head>
 <body>
     <header>
-        <div class="logo">
-            <h1>P-Piada</h1>
+        <div class="header-top">
+            <div class="logo">
+                <h1>P-Piada</h1>
+            </div>
+            <div class="status-bar">
+                <div class="status-item" id="orari-status">
+                    <span class="status-label">Stato:</span>
+                    <span class="status-value" id="stato-apertura">Caricamento...</span>
+                </div>
+                <div class="status-item" id="vendite-counter">
+                    <span class="status-label">Piadine vendute:</span>
+                    <span class="status-value" id="vendite-numero">0</span>
+                </div>
+            </div>
         </div>
         <nav>
             <a href="/">Home</a>
@@ -46,22 +58,21 @@
 
         <section class="menu-preview">
             <h2>Le Nostre Specialità</h2>
-            <div class="piadine-grid">
-                <div class="piadina-card">
-                    <h4>Classica Romagnola</h4>
-                    <p>Prosciutto, squacquerone e rucola</p>
-                    <span class="price">€5.50</span>
+            <div class="piadine-grid" id="menu-container">
+            </div>
+        </section>
+
+        <section class="carrello-section" id="carrello-section">
+            <h2>Il Tuo Ordine</h2>
+            <div class="carrello-container">
+                <div class="carrello-items" id="carrello-items">
+                    <p class="carrello-vuoto">Il carrello è vuoto</p>
                 </div>
-                <div class="piadina-card">
-                    <h4>Vegetariana</h4>
-                    <p>Verdure grigliate e formaggio</p>
-                    <span class="price">€5.00</span>
+                <div class="carrello-totale">
+                    <span>Totale:</span>
+                    <span class="totale-importo" id="totale-importo">€0.00</span>
                 </div>
-                <div class="piadina-card">
-                    <h4>Super Carnosa</h4>
-                    <p>Salsiccia, pancetta e scamorza</p>
-                    <span class="price">€7.00</span>
-                </div>
+                <button class="btn-ordina" id="btn-ordina" disabled>Ordina Ora</button>
             </div>
         </section>
     </main>
@@ -70,5 +81,165 @@
         <p>&copy; 2026 P-Piada - Tutti i diritti riservati</p>
         <p>Via Romagna 123, Citt&agrave; | Tel: 0123-456789</p>
     </footer>
+
+    <script>
+        let menuData = null;
+        let carrello = [];
+        let venditeTotali = 0;
+
+        async function caricaMenu() {
+            try {
+                const response = await fetch('/api/menu');
+                menuData = await response.json();
+                renderizzaMenu();
+                aggiornaOrari();
+            } catch (error) {
+                console.error('Errore caricamento menu:', error);
+            }
+        }
+
+        async function caricaVendite() {
+            try {
+                const response = await fetch('/api/vendite');
+                const data = await response.json();
+                venditeTotali = data.vendite;
+                animaContatore();
+            } catch (error) {
+                console.error('Errore caricamento vendite:', error);
+            }
+        }
+
+        function renderizzaMenu() {
+            const container = document.getElementById('menu-container');
+            container.innerHTML = menuData.piadine.map(piadina => `
+                <div class="piadina-card" data-id="${piadina.id}">
+                    <h4>${piadina.nome}</h4>
+                    <p>${piadina.ingredienti}</p>
+                    <span class="price">€${piadina.prezzo.toFixed(2)}</span>
+                    <button class="btn-aggiungi" onclick="aggiungiAlCarrello(${piadina.id})">
+                        Aggiungi al Carrello
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        function aggiungiAlCarrello(id) {
+            const piadina = menuData.piadine.find(p => p.id === id);
+            const esistente = carrello.find(item => item.id === id);
+            
+            if (esistente) {
+                esistente.quantita++;
+            } else {
+                carrello.push({ ...piadina, quantita: 1 });
+            }
+            
+            aggiornaCarrello();
+        }
+
+        function rimuoviDalCarrello(id) {
+            const index = carrello.findIndex(item => item.id === id);
+            if (index !== -1) {
+                if (carrello[index].quantita > 1) {
+                    carrello[index].quantita--;
+                } else {
+                    carrello.splice(index, 1);
+                }
+            }
+            aggiornaCarrello();
+        }
+
+        function aggiornaCarrello() {
+            const container = document.getElementById('carrello-items');
+            const totaleImporto = document.getElementById('totale-importo');
+            const btnOrdina = document.getElementById('btn-ordina');
+            
+            if (carrello.length === 0) {
+                container.innerHTML = '<p class="carrello-vuoto">Il carrello è vuoto</p>';
+                btnOrdina.disabled = true;
+            } else {
+                container.innerHTML = carrello.map(item => `
+                    <div class="carrello-item">
+                        <span class="item-nome">${item.nome}</span>
+                        <div class="item-controlli">
+                            <button onclick="rimuoviDalCarrello(${item.id})">-</button>
+                            <span class="item-quantita">${item.quantita}</span>
+                            <button onclick="aggiungiAlCarrello(${item.id})">+</button>
+                        </div>
+                        <span class="item-prezzo">€${(item.prezzo * item.quantita).toFixed(2)}</span>
+                    </div>
+                `).join('');
+                btnOrdina.disabled = false;
+            }
+            
+            const totale = carrello.reduce((sum, item) => sum + (item.prezzo * item.quantita), 0);
+            totaleImporto.textContent = `€${totale.toFixed(2)}`;
+        }
+
+        async function inviaOrdine() {
+            const quantitaTotale = carrello.reduce((sum, item) => sum + item.quantita, 0);
+            
+            try {
+                await fetch('/api/vendite', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ quantita: quantitaTotale })
+                });
+                
+                alert(`Ordine confermato! ${quantitaTotale} piadina/e in preparazione.`);
+                carrello = [];
+                aggiornaCarrello();
+                caricaVendite();
+            } catch (error) {
+                console.error('Errore invio ordine:', error);
+            }
+        }
+
+        function aggiornaOrari() {
+            const statoElement = document.getElementById('stato-apertura');
+            const now = new Date();
+            const ora = now.getHours();
+            const minuti = now.getMinutes();
+            const oraCorrente = ora * 60 + minuti;
+            
+            const [aperturaH, aperturaM] = menuData.orari.apertura.split(':').map(Number);
+            const [chiusuraH, chiusuraM] = menuData.orari.chiusura.split(':').map(Number);
+            
+            const aperturaMinuti = aperturaH * 60 + aperturaM;
+            const chiusuraMinuti = chiusuraH * 60 + chiusuraM;
+            
+            const giorno = now.getDay();
+            const aperto = giorno >= 1 && giorno <= 6 && oraCorrente >= aperturaMinuti && oraCorrente < chiusuraMinuti;
+            
+            if (aperto) {
+                statoElement.textContent = `APERTO - Chiudiamo alle ${menuData.orari.chiusura}`;
+                statoElement.className = 'status-value aperto';
+            } else {
+                statoElement.textContent = `CHIUSO - Apriamo alle ${menuData.orari.apertura}`;
+                statoElement.className = 'status-value chiuso';
+            }
+        }
+
+        function animaContatore() {
+            const elemento = document.getElementById('vendite-numero');
+            const target = venditeTotali;
+            let current = Math.max(0, target - 50);
+            
+            const interval = setInterval(() => {
+                current += Math.ceil((target - current) / 10);
+                elemento.textContent = current.toLocaleString();
+                
+                if (current >= target) {
+                    elemento.textContent = target.toLocaleString();
+                    clearInterval(interval);
+                }
+            }, 30);
+        }
+
+        document.getElementById('btn-ordina').addEventListener('click', inviaOrdine);
+        
+        caricaMenu();
+        caricaVendite();
+        setInterval(aggiornaOrari, 60000);
+    </script>
 </body>
 </html>

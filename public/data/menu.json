@@ -1,0 +1,45 @@
+{
+  "piadine": [
+    {
+      "id": 1,
+      "nome": "Classica Romagnola",
+      "ingredienti": "Prosciutto, squacquerone e rucola",
+      "prezzo": 5.50
+    },
+    {
+      "id": 2,
+      "nome": "Vegetariana",
+      "ingredienti": "Verdure grigliate e formaggio",
+      "prezzo": 5.00
+    },
+    {
+      "id": 3,
+      "nome": "Super Carnosa",
+      "ingredienti": "Salsiccia, pancetta e scamorza",
+      "prezzo": 7.00
+    },
+    {
+      "id": 4,
+      "nome": "Capricciosa",
+      "ingredienti": "Prosciutto, funghi, carciofi e olive",
+      "prezzo": 6.50
+    },
+    {
+      "id": 5,
+      "nome": "4 Formaggi",
+      "ingredienti": "Mozzarella, gorgonzola, fontina e parmigiano",
+      "prezzo": 6.00
+    },
+    {
+      "id": 6,
+      "nome": "Messicana",
+      "ingredienti": "Pollo, fagioli, mais e salsa piccante",
+      "prezzo": 6.50
+    }
+  ],
+  "orari": {
+    "giorni": "Lunedi - Sabato",
+    "apertura": "11:00",
+    "chiusura": "22:00"
+  }
+}
