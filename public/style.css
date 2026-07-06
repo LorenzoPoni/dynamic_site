@@ -440,3 +440,46 @@ footer p {
     background: #ccc;
     cursor: not-allowed;
 }
+
+.tabs-container {
+    margin-top: 2rem;
+}
+
+.tabs-nav {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+}
+
+.tab-btn {
+    padding: 1rem 2rem;
+    background: white;
+    border: 3px solid #f4d03f;
+    border-radius: 25px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: #35424a;
+}
+
+.tab-btn:hover {
+    border-color: #c9a227;
+    background: #fffbf0;
+}
+
+.tab-btn.active {
+    background: linear-gradient(135deg, #c9a227, #e6b800);
+    color: white;
+    border-color: #c9a227;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}

@@ -23,9 +23,6 @@
                 </div>
             </div>
         </div>
-        <nav>
-            <a href="/">Home</a>
-        </nav>
     </header>
     
     <main>
@@ -35,43 +32,57 @@
             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7F827mYo-RU4-R57RkIc68X9cd7PWuCaqL8fIRDJE0Q&s=10" alt="Piadina fresca" class="hero-img">
         </section>
 
-        <section class="features">
-            <div class="feature-card">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9nICB54rsDY-7xCdXWAmaP6W-OrXX_CQr0zSf0xBpDw&s=10" alt="Ingredienti freschi">
-                <h3>Ingredienti Freschi</h3>
-                <p>Solo prodotti selezionati e freschissimi ogni giorno</p>
+        <div class="tabs-container">
+            <div class="tabs-nav">
+                <button class="tab-btn active" onclick="showTab('chi-siamo')">Chi Siamo</button>
+                <button class="tab-btn" onclick="showTab('menu')">Menù</button>
+                <button class="tab-btn" onclick="showTab('ordine')">Ordine</button>
             </div>
-            <div class="feature-card">
-                <img src="https://menu.sluurpy.it/menu-nuovi/4352/4352/1.jpg" alt="Varie scelte">
-                <h3>Varie Scelte</h3>
-                <p>Un menu ricco per tutti i gusti e necessità</p>
-            </div>
-            <div class="feature-card">
-                <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=200&q=80" alt="Servizio veloce">
-                <h3>Servizio Veloce</h3>
-                <p>Pronti in pochi minuti per la tua pausa pranzo</p>
-            </div>
-        </section>
 
-        <section class="menu-preview">
-            <h2>Le Nostre Specialità</h2>
-            <div class="piadine-grid" id="menu-container">
+            <div class="tab-content active" id="chi-siamo">
+                <section class="features">
+                    <div class="feature-card">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9nICB54rsDY-7xCdXWAmaP6W-OrXX_CQr0zSf0xBpDw&s=10" alt="Ingredienti freschi">
+                        <h3>Ingredienti Freschi</h3>
+                        <p>Solo prodotti selezionati e freschissimi ogni giorno</p>
+                    </div>
+                    <div class="feature-card">
+                        <img src="https://menu.sluurpy.it/menu-nuovi/4352/4352/1.jpg" alt="Varie scelte">
+                        <h3>Varie Scelte</h3>
+                        <p>Un menu ricco per tutti i gusti e necessità</p>
+                    </div>
+                    <div class="feature-card">
+                        <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=200&q=80" alt="Servizio veloce">
+                        <h3>Servizio Veloce</h3>
+                        <p>Pronti in pochi minuti per la tua pausa pranzo</p>
+                    </div>
+                </section>
             </div>
-        </section>
 
-        <section class="carrello-section" id="carrello-section">
-            <h2>Il Tuo Ordine</h2>
-            <div class="carrello-container">
-                <div class="carrello-items" id="carrello-items">
-                    <p class="carrello-vuoto">Il carrello è vuoto</p>
-                </div>
-                <div class="carrello-totale">
-                    <span>Totale:</span>
-                    <span class="totale-importo" id="totale-importo">€0.00</span>
-                </div>
-                <button class="btn-ordina" id="btn-ordina" disabled>Ordina Ora</button>
+            <div class="tab-content" id="menu">
+                <section class="menu-preview">
+                    <h2>Le Nostre Specialità</h2>
+                    <div class="piadine-grid" id="menu-container">
+                    </div>
+                </section>
             </div>
-        </section>
+
+            <div class="tab-content" id="ordine">
+                <section class="carrello-section">
+                    <h2>Il Tuo Ordine</h2>
+                    <div class="carrello-container">
+                        <div class="carrello-items" id="carrello-items">
+                            <p class="carrello-vuoto">Il carrello è vuoto</p>
+                        </div>
+                        <div class="carrello-totale">
+                            <span>Totale:</span>
+                            <span class="totale-importo" id="totale-importo">€0.00</span>
+                        </div>
+                        <button class="btn-ordina" id="btn-ordina" disabled>Ordina Ora</button>
+                    </div>
+                </section>
+            </div>
+        </div>
     </main>
     
     <footer>
@@ -83,6 +94,17 @@
         let menuData = null;
         let carrello = [];
         let venditeTotali = 0;
+
+        function showTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.getElementById(tabId).classList.add('active');
+            event.target.classList.add('active');
+        }
 
         async function caricaMenu() {
             try {
@@ -113,7 +135,7 @@
                     <h4>${piadina.nome}</h4>
                     <p>${piadina.ingredienti}</p>
                     <span class="price">€${piadina.prezzo.toFixed(2)}</span>
-                    <button class="btn-aggiungi" onclick="aggiungiAlCarrello(${piadina.id})">
+                    <button class="btn-aggiungi" onclick="aggiungiAlCarrello(${piadina.id}); showTab('ordine')">
                         Aggiungi al Carrello
                     </button>
                 </div>
