@@ -449,31 +449,31 @@ footer p {
     display: flex;
     justify-content: center;
     gap: 1rem;
-    margin-bottom: 2rem;
     flex-wrap: wrap;
+    margin-top: 1rem;
 }
 
 .tab-btn {
-    padding: 1rem 2rem;
-    background: white;
-    border: 3px solid #f4d03f;
+    padding: 0.5rem 1.5rem;
+    background: rgba(255,255,255,0.1);
+    border: 2px solid white;
     border-radius: 25px;
-    font-size: 1.1rem;
+    font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
-    color: #35424a;
+    color: white;
 }
 
 .tab-btn:hover {
-    border-color: #c9a227;
-    background: #fffbf0;
+    background: rgba(255,255,255,0.2);
+    transform: translateY(-2px);
 }
 
 .tab-btn.active {
-    background: linear-gradient(135deg, #c9a227, #e6b800);
-    color: white;
-    border-color: #c9a227;
+    background: white;
+    color: #c9a227;
+    border-color: white;
 }
 
 .tab-content {

@@ -23,6 +23,11 @@
                 </div>
             </div>
         </div>
+        <nav class="tabs-nav">
+            <button class="tab-btn active" onclick="showTab('chi-siamo')">Chi Siamo</button>
+            <button class="tab-btn" onclick="showTab('menu')">Menù</button>
+            <button class="tab-btn" onclick="showTab('ordine')">Ordine</button>
+        </nav>
     </header>
     
     <main>
@@ -33,12 +38,6 @@
         </section>
 
         <div class="tabs-container">
-            <div class="tabs-nav">
-                <button class="tab-btn active" onclick="showTab('chi-siamo')">Chi Siamo</button>
-                <button class="tab-btn" onclick="showTab('menu')">Menù</button>
-                <button class="tab-btn" onclick="showTab('ordine')">Ordine</button>
-            </div>
-
             <div class="tab-content active" id="chi-siamo">
                 <section class="features">
                     <div class="feature-card">
@@ -135,7 +134,7 @@
                     <h4>${piadina.nome}</h4>
                     <p>${piadina.ingredienti}</p>
                     <span class="price">€${piadina.prezzo.toFixed(2)}</span>
-                    <button class="btn-aggiungi" onclick="aggiungiAlCarrello(${piadina.id}); showTab('ordine')">
+                    <button class="btn-aggiungi" onclick="aggiungiAlCarrello(${piadina.id})">
                         Aggiungi al Carrello
                     </button>
                 </div>
